@@ -1,19 +1,19 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
-import { LanguageSwitch } from './LanguageSwitch';
+import { Header } from './Header';
 
-const theme = createTheme();
+const theme = createTheme(
+
+);
 
 export const MainLayout = (props: React.PropsWithChildren) => {
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <LanguageSwitch />
-          {props.children}
-        </SnackbarProvider>
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider>
+        <Header />
+        {props.children}
+      </SnackbarProvider>
+    </ThemeProvider>
   );
 };

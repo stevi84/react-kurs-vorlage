@@ -7,6 +7,7 @@ import { MainLayout } from './components/common/MainLayout';
 import { store } from './reducers/Store';
 import { TodoDialog } from './components/todoDialog/TodoDialog';
 import './i18n';
+import './globals/global.css';
 
 const router = createBrowserRouter([
   {

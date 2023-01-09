@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BaseEntity } from '../../models/BaseEntity';
 import { Column, CrudMode, DataTableOwnProps } from './DataTableInterfaces';
@@ -19,6 +19,11 @@ import {
 import { DataTableRowEdit } from './DataTableRowEdit';
 import { DataTableRowRead } from './DataTableRowRead';
 
+/*
+  Diese Tabelle ist nur ein Beispiel. In einem echten Projekt besser eine Tabellenbibliothek wie aggrid/MaterialUi
+  Datagrid verwenden.
+*/
+
 export const DataTable = <EntityType extends BaseEntity>(props: DataTableOwnProps<EntityType>) => {
   const { id, columns, rowsData, manager, lang, isReading, isSubmitting } = props;
   const { t } = useTranslation();
@@ -29,26 +34,26 @@ export const DataTable = <EntityType extends BaseEntity>(props: DataTableOwnProp
 
   const isEditing: boolean = isAddEntity || isEditEntity;
 
-  const setAddEntity = () => {
+  const setAddEntity = useCallback(() => {
     setIsAddEntity(true);
     setIsEditEntity(false);
     setEditedEntityId(0);
-  };
+  }, [setIsAddEntity, setIsEditEntity, setEditedEntityId]);
 
-  const setEditedEntity = (entity: EntityType) => {
+  const setEditedEntity = useCallback((entity: EntityType) => {
     setIsAddEntity(false);
     setIsEditEntity(true);
     setEditedEntityId(entity.id);
-  };
+  }, [setIsAddEntity, setIsEditEntity, setEditedEntityId]);
 
-  const cancel = () => {
+  const cancel = useCallback(() => {
     setIsAddEntity(false);
     setIsEditEntity(false);
     setEditedEntityId(0);
-  };
+  }, [setIsAddEntity, setIsEditEntity, setEditedEntityId]);
 
   return (
-    <div>
+    <div className='dialog'>
       <Tooltip
         title={
           isEditing
