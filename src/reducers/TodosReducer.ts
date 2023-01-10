@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createMessage } from '../globals/Translations';
 import { Todo } from '../models/Todo';
-import * as todoApi from '../apis/Todo';
+import * as todoApi from '../apis/TodoApi';
 import { AppThunk, RootState } from './Store';
 import { decreaseReads, decreaseSubmits, increaseReads, increaseSubmits } from './ApiCallsReducer';
 import { enqueueSnackbar } from './SnackbarsReducer';
