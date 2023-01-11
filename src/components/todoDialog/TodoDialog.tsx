@@ -8,14 +8,13 @@ import { isReadingSelector, isSubmittingSelector } from '../../reducers/ApiCalls
 import { dataTableVisibleSelector } from '../../reducers/DataTableReducer';
 import { useAppDispatch, useAppSelector } from '../../reducers/Store';
 import {
-  createTodoThunk,
-  deleteTodoThunk,
-  readTodosThunk,
+  createTodo,
+  deleteTodo,
+  readTodos,
   todosSelector,
-  updateTodoThunk,
+  updateTodo,
 } from '../../reducers/TodosReducer';
 import { Header } from '../common/Header';
-import { MainLayout } from '../common/MainLayout';
 import { DataTable } from '../dataTable/DataTable';
 import { DataTypes } from '../dataTable/DataTableInterfaces';
 
@@ -30,7 +29,7 @@ export const TodoDialog = () => {
   const dispatch = useAppDispatch();
   useNotifier();
   useEffect(() => {
-    dispatch(readTodosThunk());
+    dispatch(readTodos());
   }, [dispatch]);
 
   return (
@@ -47,10 +46,10 @@ export const TodoDialog = () => {
           ]}
           rowsData={todos}
           manager={{
-            create: (entity: Todo) => dispatch(createTodoThunk(entity)),
-            read: () => dispatch(readTodosThunk()),
-            update: (entity: Partial<Todo>) => dispatch(updateTodoThunk(entity)),
-            delete: (entity: Todo) => dispatch(deleteTodoThunk(entity.id)),
+            create: (entity: Todo) => dispatch(createTodo(entity)),
+            read: () => dispatch(readTodos()),
+            update: (entity: Partial<Todo>) => dispatch(updateTodo(entity)),
+            delete: (entity: Todo) => dispatch(deleteTodo(entity.id)),
             getEmpty: getEmptyTodo,
           }}
           lang={lang}

@@ -15,31 +15,31 @@ const todosSlice = createSlice({
     setTodos(state, action: PayloadAction<Todo[]>) {
       return action.payload;
     },
-    createTodo(state, action: PayloadAction<Todo>) {
+    addTodo(state, action: PayloadAction<Todo>) {
       return state.concat(action.payload);
     },
-    updateTodo(state, action: PayloadAction<Todo>) {
+    changeTodo(state, action: PayloadAction<Todo>) {
       return state.map((todo) => (todo.id !== action.payload.id ? todo : action.payload));
     },
-    deleteTodo(state, action: PayloadAction<number>) {
+    removeTodo(state, action: PayloadAction<number>) {
       return state.filter((todo) => todo.id !== action.payload);
     },
   },
 });
 
 const { actions, reducer } = todosSlice;
-export const { setTodos, createTodo, updateTodo, deleteTodo } = actions;
+export const { setTodos, addTodo, changeTodo, removeTodo } = actions;
 export { reducer as todosReducer };
 
 export const todosSelector = (state: RootState): Todo[] => state.todos;
 
-export const createTodoThunk =
+export const createTodo =
   (todo: Todo): AppThunk<Promise<Todo>> =>
     async (dispatch) => {
       dispatch(increaseSubmits());
       try {
         const response = await todoApi.createTodo(todo);
-        dispatch(createTodo(response.data));
+        dispatch(addTodo(response.data));
         dispatch(
           enqueueSnackbar(createMessage('create', 'todo', true), { variant: 'success', autoHideDuration: 2000 }),
         );
@@ -52,7 +52,7 @@ export const createTodoThunk =
       }
     };
 
-export const readTodosThunk = (): AppThunk<Promise<Todo[]>> => async (dispatch) => {
+export const readTodos = (): AppThunk<Promise<Todo[]>> => async (dispatch) => {
   dispatch(increaseReads());
   try {
     const response = await todoApi.readTodos();
@@ -66,13 +66,13 @@ export const readTodosThunk = (): AppThunk<Promise<Todo[]>> => async (dispatch) 
   }
 };
 
-export const updateTodoThunk =
+export const updateTodo =
   (todo: Partial<Todo>): AppThunk<Promise<Todo>> =>
     async (dispatch) => {
       dispatch(increaseSubmits());
       try {
         const response = await todoApi.updateTodo(todo);
-        dispatch(updateTodo(response.data));
+        dispatch(changeTodo(response.data));
         dispatch(
           enqueueSnackbar(createMessage('update', 'todo', true), { variant: 'success', autoHideDuration: 2000 }),
         );
@@ -85,13 +85,13 @@ export const updateTodoThunk =
       }
     };
 
-export const deleteTodoThunk =
+export const deleteTodo =
   (todoId: number): AppThunk<Promise<any>> =>
     async (dispatch) => {
       dispatch(increaseSubmits());
       try {
         const response = await todoApi.deleteTodo(todoId);
-        dispatch(deleteTodo(todoId));
+        dispatch(removeTodo(todoId));
         dispatch(
           enqueueSnackbar(createMessage('delete', 'todo', true), { variant: 'success', autoHideDuration: 2000 }),
         );
