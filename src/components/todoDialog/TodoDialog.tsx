@@ -14,6 +14,8 @@ import {
   todosSelector,
   updateTodoThunk,
 } from '../../reducers/TodosReducer';
+import { Header } from '../common/Header';
+import { MainLayout } from '../common/MainLayout';
 import { DataTable } from '../dataTable/DataTable';
 import { DataTypes } from '../dataTable/DataTableInterfaces';
 
@@ -32,27 +34,30 @@ export const TodoDialog = () => {
   }, [dispatch]);
 
   return (
-    dataTableVisible ?
-      <DataTable<Todo>
-        id={'todo-table'}
-        columns={[
-          { property: 'owner', datatype: DataTypes.STRING, validateFn: formIsNotEmptyString },
-          { property: 'dueDate', datatype: DataTypes.DATE, validateFn: formIsIsoDate },
-          { property: 'description', datatype: DataTypes.STRING, validateFn: formIsNotEmptyString },
-          { property: 'completed', datatype: DataTypes.BOOLEAN },
-        ]}
-        rowsData={todos}
-        manager={{
-          create: (entity: Todo) => dispatch(createTodoThunk(entity)),
-          read: () => dispatch(readTodosThunk()),
-          update: (entity: Partial<Todo>) => dispatch(updateTodoThunk(entity)),
-          delete: (entity: Todo) => dispatch(deleteTodoThunk(entity.id)),
-          getEmpty: getEmptyTodo,
-        }}
-        lang={lang}
-        isReading={isReading}
-        isSubmitting={isSubmitting}
-      />
-      : <div></div>
+    <div>
+      <Header />
+      {dataTableVisible ?
+        <DataTable<Todo>
+          id={'todo-table'}
+          columns={[
+            { property: 'owner', datatype: DataTypes.STRING, validateFn: formIsNotEmptyString },
+            { property: 'dueDate', datatype: DataTypes.DATE, validateFn: formIsIsoDate },
+            { property: 'description', datatype: DataTypes.STRING, validateFn: formIsNotEmptyString },
+            { property: 'completed', datatype: DataTypes.BOOLEAN },
+          ]}
+          rowsData={todos}
+          manager={{
+            create: (entity: Todo) => dispatch(createTodoThunk(entity)),
+            read: () => dispatch(readTodosThunk()),
+            update: (entity: Partial<Todo>) => dispatch(updateTodoThunk(entity)),
+            delete: (entity: Todo) => dispatch(deleteTodoThunk(entity.id)),
+            getEmpty: getEmptyTodo,
+          }}
+          lang={lang}
+          isReading={isReading}
+          isSubmitting={isSubmitting}
+        />
+        : <div></div>}
+    </div>
   );
 };

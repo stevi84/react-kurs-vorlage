@@ -13,6 +13,7 @@
 
 .header-icon {
   font-size: xx-large;
+  cursor: pointer;
 }
 
 .header-text {
