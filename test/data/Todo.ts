@@ -1,4 +1,4 @@
-import { Todo } from '../../models/Todo';
+import { Todo } from '../../src/models/Todo';
 
 export const todo1: Todo = {
   id: 1,

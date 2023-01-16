@@ -1,5 +1,5 @@
 import { Todo } from '../models/Todo';
-import { todo1 } from '../test/data/Todo';
+import { todo1 } from '../../test/data/Todo';
 import { url } from './BaseApi';
 import { createTodo } from './TodoApi';
 import axios, { AxiosResponse, AxiosStatic } from 'axios';
