@@ -86,7 +86,7 @@ export const updateTodo =
     };
 
 export const deleteTodo =
-  (todoId: number): AppThunk<Promise<any>> =>
+  (todoId: number): AppThunk<Promise<void>> =>
     async (dispatch) => {
       dispatch(increaseSubmits());
       try {

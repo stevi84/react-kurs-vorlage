@@ -8,8 +8,6 @@ import { StringRead } from './StringRead';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BooleanRead } from './BooleanRead';
-import { ModalConfirmCancel } from '../common/ModalConfirmCancel';
-import { useState } from 'react';
 
 interface DataTableRowReadOwnProps<EntityType> extends DataTableRowOwnProps<EntityType> {
   setEdited: (entity: EntityType) => void;
@@ -17,8 +15,6 @@ interface DataTableRowReadOwnProps<EntityType> extends DataTableRowOwnProps<Enti
 }
 
 export const DataTableRowRead = <EntityType extends BaseEntity>(props: DataTableRowReadOwnProps<EntityType>) => {
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-
   const { id, columns, rowData, rowIndex, manager, lang, setEdited, actionsActive } = props;
   const { t } = useTranslation();
 
@@ -58,12 +54,7 @@ export const DataTableRowRead = <EntityType extends BaseEntity>(props: DataTable
   };
 
   const doSetEdited = () => setEdited(rowData);
-  const doDelete = () => setShowDeleteModal(true);
-  const modalDeleteConfirm = () => {
-    manager.delete(rowData);
-    setShowDeleteModal(false);
-  };
-  const modalDeleteCancel = () => setShowDeleteModal(false);
+  const doDelete = () => manager.delete(rowData);
 
   const getActionComponents = (): React.ReactNode => {
     return (
@@ -104,15 +95,6 @@ export const DataTableRowRead = <EntityType extends BaseEntity>(props: DataTable
         </TableCell>
       ))}
       {getActionComponents()}
-      <ModalConfirmCancel
-        isOpen={showDeleteModal}
-        headerText={t('delete')}
-        bodyText={t('dialog_delete_text')}
-        confirmButtonText={t('delete')}
-        cancelButtonText={t('cancel')}
-        confirmAction={modalDeleteConfirm}
-        cancelAction={modalDeleteCancel}
-      />
     </TableRow>
   );
 };

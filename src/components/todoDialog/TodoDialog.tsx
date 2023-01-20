@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formIsIsoDate, formIsNotEmptyString } from '../../globals/FormValidations';
 import { Locale } from '../../globals/Translations';
@@ -15,6 +15,7 @@ import {
   updateTodo,
 } from '../../reducers/TodosReducer';
 import { Header } from '../common/Header';
+import { ModalConfirmCancel } from '../common/ModalConfirmCancel';
 import { DataTable } from '../dataTable/DataTable';
 import { DataTypes } from '../dataTable/DataTableInterfaces';
 
@@ -24,13 +25,15 @@ export const TodoDialog = () => {
   const isSubmitting: boolean = useAppSelector(isSubmittingSelector);
   const dataTableVisible: boolean = useAppSelector(dataTableVisibleSelector);
 
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang: Locale = i18n.language as Locale;
   const dispatch = useAppDispatch();
   useNotifier();
   useEffect(() => {
     dispatch(readTodos());
   }, [dispatch]);
+
+  const [deleteModalState, setDeleteModalState] = useState({ visible: false, entityId: -1 });
 
   return (
     <div>
@@ -49,7 +52,7 @@ export const TodoDialog = () => {
             create: (entity: Todo) => dispatch(createTodo(entity)),
             read: () => dispatch(readTodos()),
             update: (entity: Partial<Todo>) => dispatch(updateTodo(entity)),
-            delete: (entity: Todo) => dispatch(deleteTodo(entity.id)),
+            delete: (entity: Todo) => setDeleteModalState({ visible: true, entityId: entity.id }),
             getEmpty: getEmptyTodo,
           }}
           lang={lang}
@@ -57,6 +60,18 @@ export const TodoDialog = () => {
           isSubmitting={isSubmitting}
         />
         : <div></div>}
+      <ModalConfirmCancel
+        isOpen={deleteModalState.visible}
+        headerText={t('delete')}
+        bodyText={t('dialog_delete_text')}
+        confirmButtonText={t('delete')}
+        cancelButtonText={t('cancel')}
+        confirmAction={() => {
+          dispatch(deleteTodo(deleteModalState.entityId));
+          setDeleteModalState({ visible: false, entityId: -1 });
+        }}
+        cancelAction={() => setDeleteModalState({ visible: false, entityId: -1 })}
+      />
     </div>
   );
 };

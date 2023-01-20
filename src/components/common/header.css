@@ -13,14 +13,9 @@
 
 .header-icon {
   font-size: xx-large;
-  cursor: pointer;
 }
 
 .header-text {
   flex-grow: 1;
   font-size: larger;
-}
-
-.header-language {
-
 }

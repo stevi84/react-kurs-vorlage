@@ -18,4 +18,4 @@ export const updateTodo = (todo: Partial<Todo>): AxiosPromise<Todo> => {
   return axios.patch<Todo>(`${url}/todos/${todo.id}`, data, { headers });
 };
 
-export const deleteTodo = (todoId: number): AxiosPromise<any> => axios.delete<any>(`${url}/todos/${todoId}`);
+export const deleteTodo = (todoId: number): AxiosPromise<void> => axios.delete<void>(`${url}/todos/${todoId}`);

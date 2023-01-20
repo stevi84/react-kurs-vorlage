@@ -5,7 +5,7 @@ export enum DataTypes {
   NUMBER = 'NUMBER',
   STRING = 'STRING',
   DATE = 'DATE',
-  BOOLEAN = 'BOOLEAN'
+  BOOLEAN = 'BOOLEAN',
 }
 
 export enum CrudMode {
