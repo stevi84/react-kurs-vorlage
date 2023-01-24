@@ -9,6 +9,6 @@
       "@wdio/jasmine-framework",
       "jest"
     ],
-    "target": "es5"
+    "target": "es2022"
   }
 }

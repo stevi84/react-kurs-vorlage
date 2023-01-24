@@ -8,6 +8,18 @@ jest.mock('react-redux');
 const useSelectorMock = useSelector as jest.Mock;
 const useDispatchMock = useDispatch as jest.Mock;
 
+// https://react.i18next.com/misc/testing
+jest.mock('react-i18next', () => ({
+  // this mock makes sure any components using the translate hook can use it without a warning being shown
+  useTranslation: () => ({
+    t: (str: string) => str,
+    i18n: {
+      language: 'de',
+      changeLanguage: () => new Promise(() => {}),
+    },
+  }),
+}));
+
 describe('Header', () => {
   it('should equal saved snapshot', () => {
     const renderer: ShallowRenderer = createRenderer();
